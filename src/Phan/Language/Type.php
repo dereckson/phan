@@ -265,6 +265,8 @@ class Type
                 return FloatType::instance();
             case 'int':
                 return IntType::instance();
+            case 'iterable':
+                return IterableType::instance();
             case 'mixed':
                 return MixedType::instance();
             case 'null':
@@ -469,6 +471,8 @@ class Type
                     return \Phan\Language\Type\FloatType::instance();
                 case 'int':
                     return \Phan\Language\Type\IntType::instance();
+                case 'iterable':
+                    return \Phan\Language\Type\IterableType::instance();
                 case 'mixed':
                     return \Phan\Language\Type\MixedType::instance();
                 case 'null':
@@ -617,6 +621,7 @@ class Type
                 'closure',
                 'callable',
                 'array',
+                'iterable',
                 'null',
                 'object',
                 'resource',
@@ -993,13 +998,13 @@ class Type
         }
 
         if ($s_is_generic_array
-            && ($d == 'array' || $d == 'arrayaccess')
+            && ($d == 'array' || $d == 'arrayaccess' || $d == 'iterable')
         ) {
             return true;
         }
 
-        if ($d_is_generic_array
-            && $s==='array'
+        if ($s==='array'
+            && ($d_is_generic_array || $d == 'iterable')
         ) {
             return true;
         }
